@@ -21,8 +21,12 @@ class MainActivity : ComponentActivity() {
         hideStatusBar()
         setContent {
             VideoplayercomposeTheme {
-                requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_VIDEO)
-                requestPermissionLauncher.launch(Manifest.permission.RECEIVE_BOOT_COMPLETED)
+                if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.P) {
+                    requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                }else{
+                    requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_VIDEO)
+                }
                 MediaPlayerScreen(_onPermissionGranted = _onPermissionGranted)
             }
         }

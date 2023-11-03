@@ -1,17 +1,22 @@
 package com.came.parkare.videoplayercompose.ui.viewmodel
 
 import android.net.Uri
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import com.came.parkare.videoplayercompose.R
 import com.came.parkare.videoplayercompose.data.MediaDataReader
 import com.came.parkare.videoplayercompose.models.VideoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
@@ -21,6 +26,8 @@ class MainViewModel @Inject constructor(
     private val metaDataReader: MediaDataReader,
     val player: Player
 ) : ViewModel() {
+    var state by mutableStateOf(MediaState())
+        private set
     private val videoUris = savedStateHandle.getStateFlow("videoUris", emptyList<Uri>())
 
     val videoItems = videoUris.map { uris ->
@@ -70,6 +77,12 @@ class MainViewModel @Inject constructor(
                 }
             }
             savedStateHandle["videoUris"] = videoUris
+        }
+        else{
+            viewModelScope.launch {
+                val messageId = R.string.not_found_directory
+                state = state.copy(errorMessageId = messageId)
+            }
         }
         return videoUris
     }

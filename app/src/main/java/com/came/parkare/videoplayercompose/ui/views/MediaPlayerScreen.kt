@@ -1,5 +1,6 @@
 package com.came.parkare.videoplayercompose.ui.views
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,9 +27,16 @@ fun MediaPlayerScreen(
     _onPermissionGranted: () -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ){
+    val state = viewModel.state
     _onPermissionGranted.let {
         showVideos(viewModel)
     }
+
+    if(state.errorMessageId != null) {
+        Toast.makeText(LocalContext.current, state.errorMessageId, Toast.LENGTH_LONG).show()
+    }
+
+
     var lifecycle by remember {
         mutableStateOf(Lifecycle.Event.ON_CREATE)
     }

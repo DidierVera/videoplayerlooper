@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">videoplayercompose</string>
+    <string name="app_name">Came Videos</string>
     <string name="the_storage_permissions_is_necessary">Son necesarios los permisos para usar la app</string>
+    <string name="not_found_directory"><![CDATA["The <camevideos> directory could not found "]]></string>
 </resources>
