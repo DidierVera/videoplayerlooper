@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">videoplayercompose</string>
+    <string name="the_storage_permissions_is_necessary">Son necesarios los permisos para usar la app</string>
+</resources>
